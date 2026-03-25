@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Proxima Strategy — Enterprise Advisory</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #0f0e0d;
+      --paper: #f5f3ef;
+      --gold: #b89a5a;
+      --muted: #8a867e;
+      --rule: #d8d4cc;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'DM Mono', monospace;
+      font-weight: 300;
+      font-size: 13px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* Grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.5;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 2.5rem 3rem;
+      border-bottom: 1px solid var(--rule);
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .wordmark {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-size: 1.4rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .wordmark span { color: var(--gold); }
+
+    nav { display: flex; gap: 2.5rem; }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      font-size: 11px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--ink); }
+
+    /* Hero */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: calc(100vh - 80px);
+      animation: fadeUp 0.9s 0.1s ease both;
+    }
+
+    .hero-left {
+      padding: 6rem 3rem 4rem;
+      border-right: 1px solid var(--rule);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .hero-eyebrow {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--gold);
+      margin-bottom: 2rem;
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(3rem, 5vw, 5.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-sub {
+      max-width: 34ch;
+      color: var(--muted);
+      margin-top: 2.5rem;
+      font-size: 12px;
+      line-height: 1.9;
+    }
+
+    .hero-cta {
+      margin-top: 4rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+      color: var(--ink);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--ink);
+      padding-bottom: 0.25rem;
+      transition: gap 0.3s, color 0.2s;
+    }
+    .hero-cta:hover { gap: 1.5rem; color: var(--gold); border-color: var(--gold); }
+
+    .hero-right {
+      padding: 6rem 3rem 4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .services-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+
+    .service-list { list-style: none; }
+    .service-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 1.1rem 0;
+      border-top: 1px solid var(--rule);
+      font-size: 12px;
+      color: var(--muted);
+      transition: color 0.2s;
+      cursor: default;
+    }
+    .service-list li:hover { color: var(--ink); }
+    .service-list li .num {
+      font-size: 10px;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+    }
+
+    /* Pillars */
+    .pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--rule);
+      animation: fadeUp 1s 0.2s ease both;
+    }
+
+    .pillar {
+      padding: 3rem;
+      border-right: 1px solid var(--rule);
+    }
+    .pillar:last-child { border-right: none; }
+
+    .pillar-num {
+      font-size: 10px;
+      color: var(--gold);
+      letter-spacing: 0.15em;
+      margin-bottom: 1.5rem;
+    }
+
+    .pillar h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+    }
+
+    .pillar p { color: var(--muted); font-size: 12px; line-height: 1.9; }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 2rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      header { padding: 1.5rem; flex-direction: column; gap: 1.5rem; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-left { border-right: none; border-bottom: 1px solid var(--rule); padding: 3rem 1.5rem; }
+      .hero-right { padding: 3rem 1.5rem; }
+      .pillars { grid-template-columns: 1fr; }
+      .pillar { border-right: none; border-bottom: 1px solid var(--rule); }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a class="wordmark" href="/">Proxima<span>.</span></a>
+    <nav>
+      <a href="#services">Services</a>
+      <a href="#approach">Approach</a>
+      <a href="mailto:hello@proxima-strategy.com">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero" id="services">
+    <div class="hero-left">
+      <div>
+        <p class="hero-eyebrow">Enterprise Strategy & Architecture</p>
+        <h1>Clarity at <em>scale.</em></h1>
+        <p class="hero-sub">
+          Proxima partners with enterprise and growth-stage organisations to navigate complexity — from connected mobility to GCC market entry and digital transformation.
+        </p>
+        <a class="hero-cta" href="mailto:hello@proxima-strategy.com">
+          Start a conversation &rarr;
+        </a>
+      </div>
+      <div style="color:var(--muted); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; margin-top:4rem;">
+        London &middot; GCC &middot; EMEA
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <p class="services-label">What we do</p>
+      <ul class="service-list">
+        <li>GCC Market Entry Advisory <span class="num">01</span></li>
+        <li>Connected Mobility Architecture <span class="num">02</span></li>
+        <li>Programme Assurance <span class="num">03</span></li>
+        <li>Fractional Leadership <span class="num">04</span></li>
+        <li>Digital Transformation <span class="num">05</span></li>
+        <li>Regulatory & Compliance Strategy <span class="num">06</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="pillars" id="approach">
+    <div class="pillar">
+      <p class="pillar-num">I</p>
+      <h3>Sector depth</h3>
+      <p>Automotive, fintech, and smart infrastructure — real delivery experience across regulated, high-stakes environments.</p>
+    </div>
+    <div class="pillar">
+      <p class="pillar-num">II</p>
+      <h3>Market reach</h3>
+      <p>Native fluency in EMEA and GCC dynamics. Trusted relationships across the UK, UAE, Saudi Arabia, and broader VW Group ecosystem.</p>
+    </div>
+    <div class="pillar">
+      <p class="pillar-num">III</p>
+      <h3>Strategic clarity</h3>
+      <p>We translate complexity into decisions. Architecture, compliance, and commercial strategy unified under one advisory relationship.</p>
+    </div>
+  </section>
+
+  <footer>
+    <span>&copy; 2026 Proxima Strategy Ltd</span>
+    <span>hello@proxima-strategy.com</span>
+  </footer>
+
+</body>
+</html>
