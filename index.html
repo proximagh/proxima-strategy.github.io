@@ -1,295 +1,934 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Proxima Strategy — Enterprise Advisory</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Proxima — Enterprise architecture and digital strategy consultancy. Specialists in Connected Car, automotive technology, and GCC market advisory.">
+<title>Proxima — Architecture & Digital Strategy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Archivo:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0d0f14;
+  --ink-mid: #1c2130;
+  --ink-soft: #2a3347;
+  --slate: #4a5568;
+  --mist: #8896ab;
+  --pale: #c4cdd9;
+  --frost: #e8ecf2;
+  --white: #f7f8fa;
+  --gold: #c4973a;
+  --gold-light: #ddb96a;
+  --gold-pale: #f5ecd8;
+  --gold-dim: rgba(196,151,58,0.15);
+  --accent: #1a6b5a;
+  --radius: 4px;
+  --radius-lg: 10px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'Archivo', sans-serif;
+  background: var(--ink);
+  color: var(--frost);
+  line-height: 1.7;
+  overflow-x: hidden;
+  cursor: none;
+  transition: background 0.6s ease;
+}
 
-    :root {
-      --ink: #0f0e0d;
-      --paper: #f5f3ef;
-      --gold: #b89a5a;
-      --muted: #8a867e;
-      --rule: #d8d4cc;
-    }
+/* ---- CURSOR ---- */
+.cursor { position: fixed; width: 8px; height: 8px; background: var(--gold); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: width 0.2s, height 0.2s; }
+.cursor-ring { position: fixed; width: 32px; height: 32px; border: 1px solid rgba(196,151,58,0.4); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: width 0.3s, height 0.3s, border-color 0.3s; }
+.cursor.expand { width: 16px; height: 16px; }
+.cursor-ring.expand { width: 48px; height: 48px; border-color: rgba(196,151,58,0.7); }
 
-    html { scroll-behavior: smooth; }
+/* ---- REGION BACKGROUNDS ---- */
+body.region-uk { background: var(--ink); }
+body.region-middle-east {
+  background: #0a1a12;
+  --ink: #0a1a12;
+  --ink-mid: #0f2318;
+  --ink-soft: #163020;
+}
+body.region-europe { background: #0d1020; --ink: #0d1020; --ink-mid: #141830; --ink-soft: #1c2240; }
+body.region-na { background: #0f0d18; --ink: #0f0d18; --ink-mid: #18162a; --ink-soft: #221f3a; }
+body.region-row { background: #100d0a; --ink: #100d0a; --ink-mid: #1e1912; --ink-soft: #2c2518; }
 
-    body {
-      background: var(--paper);
-      color: var(--ink);
-      font-family: 'DM Mono', monospace;
-      font-weight: 300;
-      font-size: 13px;
-      line-height: 1.7;
-      min-height: 100vh;
-    }
+/* Hero region overlays */
+.hero-region-overlay {
+  position: absolute; inset: 0; z-index: 0; opacity: 0;
+  transition: opacity 0.8s ease;
+  background: radial-gradient(ellipse 60% 80% at 70% 50%, rgba(196,151,58,0.08) 0%, transparent 60%);
+}
+.hero-region-overlay.me {
+  background:
+    radial-gradient(ellipse 50% 70% at 75% 40%, rgba(20,120,70,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 50% at 30% 70%, rgba(196,151,58,0.1) 0%, transparent 50%);
+}
+.hero-region-overlay.eu {
+  background: radial-gradient(ellipse 60% 60% at 70% 40%, rgba(30,60,180,0.12) 0%, transparent 60%);
+}
+.hero-region-overlay.active { opacity: 1; }
 
-    /* Grain overlay */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 9999;
-      opacity: 0.5;
-    }
+/* ME person illustration */
+.hero-person {
+  position: absolute; right: 0; bottom: 0; z-index: 1;
+  width: 45%; max-width: 520px; opacity: 0;
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  transform: translateX(30px);
+  pointer-events: none;
+}
+.hero-person.visible { opacity: 1; transform: translateX(0); }
+.hero-person svg { width: 100%; height: auto; }
 
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      padding: 2.5rem 3rem;
-      border-bottom: 1px solid var(--rule);
-      animation: fadeUp 0.8s ease both;
-    }
+/* ---- NAV ---- */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  padding: 24px 60px;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: background 0.4s, padding 0.4s;
+}
+nav.scrolled {
+  background: rgba(13,15,20,0.94);
+  backdrop-filter: blur(20px);
+  padding: 16px 60px;
+  border-bottom: 0.5px solid rgba(196,151,58,0.12);
+}
+.nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
 
-    .wordmark {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 600;
-      font-size: 1.4rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--ink);
-      text-decoration: none;
-    }
+/* ---- 4-POINT STAR LOGO ---- */
+.logo-star {
+  width: 38px; height: 38px; flex-shrink: 0;
+  position: relative; display: flex; align-items: center; justify-content: center;
+}
+.logo-star svg { width: 38px; height: 38px; }
 
-    .wordmark span { color: var(--gold); }
+.logo-text { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; color: var(--white); letter-spacing: 0.14em; text-transform: uppercase; }
+.logo-sub { font-size: 9px; color: var(--gold); text-transform: uppercase; letter-spacing: 0.2em; display: block; margin-top: -2px; }
 
-    nav { display: flex; gap: 2.5rem; }
-    nav a {
-      color: var(--muted);
-      text-decoration: none;
-      letter-spacing: 0.08em;
-      font-size: 11px;
-      text-transform: uppercase;
-      transition: color 0.2s;
-    }
-    nav a:hover { color: var(--ink); }
+.nav-right { display: flex; align-items: center; gap: 24px; }
+.nav-links { display: flex; align-items: center; gap: 40px; }
+.nav-links a { font-size: 12px; font-weight: 500; color: var(--mist); text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; position: relative; }
+.nav-links a::after { content: ''; position: absolute; bottom: -3px; left: 0; right: 0; height: 0.5px; background: var(--gold); transform: scaleX(0); transition: transform 0.3s; transform-origin: left; }
+.nav-links a:hover { color: var(--gold); }
+.nav-links a:hover::after { transform: scaleX(1); }
+.nav-cta { font-size: 12px !important; font-weight: 500; color: var(--gold) !important; border: 0.5px solid rgba(196,151,58,0.4) !important; padding: 9px 20px; border-radius: var(--radius); transition: background 0.2s !important; }
+.nav-cta:hover { background: var(--gold-dim) !important; }
+.nav-cta::after { display: none !important; }
 
-    /* Hero */
-    .hero {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      min-height: calc(100vh - 80px);
-      animation: fadeUp 0.9s 0.1s ease both;
-    }
+/* ---- REGION SELECTOR ---- */
+.region-selector {
+  position: relative; display: flex; align-items: center; gap: 8px;
+  background: rgba(196,151,58,0.08);
+  border: 0.5px solid rgba(196,151,58,0.25);
+  border-radius: var(--radius);
+  padding: 7px 12px; cursor: none;
+  font-size: 12px; color: var(--pale);
+  transition: background 0.2s;
+  user-select: none;
+}
+.region-selector:hover { background: rgba(196,151,58,0.14); }
+.region-flag { font-size: 14px; line-height: 1; }
+.region-name { font-size: 11px; font-weight: 500; letter-spacing: 0.06em; white-space: nowrap; }
+.region-chevron { font-size: 8px; color: var(--gold); margin-left: 2px; transition: transform 0.2s; }
+.region-selector.open .region-chevron { transform: rotate(180deg); }
 
-    .hero-left {
-      padding: 6rem 3rem 4rem;
-      border-right: 1px solid var(--rule);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
+.region-dropdown {
+  position: absolute; top: calc(100% + 8px); right: 0;
+  background: var(--ink-soft);
+  border: 0.5px solid rgba(196,151,58,0.2);
+  border-radius: var(--radius-lg);
+  min-width: 190px; overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  display: none; z-index: 300;
+}
+.region-dropdown.open { display: block; }
+.region-option {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 16px; cursor: none;
+  font-size: 12px; color: var(--mist);
+  transition: background 0.15s, color 0.15s;
+  border-bottom: 0.5px solid rgba(196,151,58,0.08);
+}
+.region-option:last-child { border-bottom: none; }
+.region-option:hover { background: rgba(196,151,58,0.08); color: var(--pale); }
+.region-option.active { color: var(--gold); background: rgba(196,151,58,0.06); }
+.region-option .rflag { font-size: 16px; }
+.region-option .rname { font-weight: 500; }
+.region-option .rsub { font-size: 10px; color: var(--slate); display: block; }
 
-    .hero-eyebrow {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      color: var(--gold);
-      margin-bottom: 2rem;
-    }
+/* ---- HERO ---- */
+.hero {
+  min-height: 100vh; display: flex; align-items: center;
+  padding: 120px 60px 80px; position: relative; overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 70% 50%, rgba(196,151,58,0.05) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 20% 80%, rgba(26,107,90,0.07) 0%, transparent 60%);
+}
+.hero-grid {
+  position: absolute; inset: 0; z-index: 0; opacity: 0.035;
+  background-image: linear-gradient(rgba(196,151,58,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(196,151,58,0.8) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+.hero-content { position: relative; z-index: 2; max-width: 680px; }
+.hero-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-size: 10px; font-weight: 600; color: var(--gold); text-transform: uppercase; letter-spacing: 0.25em; margin-bottom: 32px; }
+.hero-eyebrow::before { content: ''; width: 32px; height: 0.5px; background: var(--gold); }
+.hero-headline { font-family: 'Cormorant Garamond', serif; font-size: clamp(52px, 7vw, 88px); font-weight: 300; line-height: 1.05; color: var(--white); margin-bottom: 28px; letter-spacing: -0.01em; }
+.hero-headline em { font-style: italic; color: var(--gold); font-weight: 300; }
+.hero-body { font-size: 16px; color: var(--mist); line-height: 1.8; max-width: 500px; margin-bottom: 48px; font-weight: 300; }
+.hero-actions { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.btn-primary { display: inline-flex; align-items: center; gap: 10px; background: var(--gold); color: var(--ink); font-family: 'Archivo', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; padding: 16px 32px; border-radius: var(--radius); transition: background 0.2s, transform 0.2s; border: none; cursor: none; }
+.btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+.btn-secondary { display: inline-flex; align-items: center; gap: 10px; color: var(--pale); font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; transition: color 0.2s; cursor: none; }
+.btn-secondary:hover { color: var(--gold); }
+.btn-arrow { font-size: 16px; transition: transform 0.2s; }
+.btn-secondary:hover .btn-arrow { transform: translateX(4px); }
+.hero-scroll { position: absolute; bottom: 40px; left: 60px; display: flex; align-items: center; gap: 12px; font-size: 10px; color: var(--mist); text-transform: uppercase; letter-spacing: 0.2em; z-index: 2; }
+.scroll-line { width: 40px; height: 0.5px; background: var(--mist); position: relative; overflow: hidden; }
+.scroll-line::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: var(--gold); animation: scanline 2s ease-in-out infinite; }
+@keyframes scanline { 0%,100%{left:-100%} 50%{left:100%} }
+.hero-stat-row { position: absolute; right: 60px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 32px; z-index: 2; }
+.hero-stat { text-align: right; }
+.hero-stat-num { font-family: 'Cormorant Garamond', serif; font-size: 40px; font-weight: 300; color: var(--gold); line-height: 1; display: block; }
+.hero-stat-label { font-size: 10px; color: var(--mist); text-transform: uppercase; letter-spacing: 0.15em; display: block; margin-top: 4px; }
 
-    h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: clamp(3rem, 5vw, 5.5rem);
-      line-height: 1.05;
-      letter-spacing: -0.01em;
-      color: var(--ink);
-    }
+/* ---- MARQUEE ---- */
+.marquee-wrap { border-top: 0.5px solid rgba(196,151,58,0.12); border-bottom: 0.5px solid rgba(196,151,58,0.12); padding: 16px 0; overflow: hidden; background: rgba(196,151,58,0.03); }
+.marquee-track { display: flex; animation: marquee 30s linear infinite; width: max-content; }
+.marquee-item { display: inline-flex; align-items: center; gap: 24px; padding: 0 32px; white-space: nowrap; font-size: 11px; font-weight: 500; color: var(--mist); text-transform: uppercase; letter-spacing: 0.15em; }
+.marquee-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
-    h1 em {
-      font-style: italic;
-      color: var(--gold);
-    }
+/* ---- SERVICES ---- */
+.services { padding: 120px 60px; }
+.section-header { margin-bottom: 72px; }
+.section-label { display: inline-flex; align-items: center; gap: 10px; font-size: 10px; font-weight: 600; color: var(--gold); text-transform: uppercase; letter-spacing: 0.25em; margin-bottom: 20px; }
+.section-label::before { content: ''; width: 24px; height: 0.5px; background: var(--gold); }
+.section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(36px, 4vw, 54px); font-weight: 300; color: var(--white); line-height: 1.15; letter-spacing: -0.01em; }
+.section-title em { font-style: italic; color: var(--gold); }
+.services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: rgba(196,151,58,0.1); border: 0.5px solid rgba(196,151,58,0.1); border-radius: var(--radius-lg); overflow: hidden; }
+.service-card { background: var(--ink-mid); padding: 48px; position: relative; overflow: hidden; transition: background 0.3s; }
+.service-card:hover { background: var(--ink-soft); }
+.service-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease; }
+.service-card:hover::before { transform: scaleX(1); }
+.service-num { font-family: 'Cormorant Garamond', serif; font-size: 64px; font-weight: 300; color: rgba(196,151,58,0.08); position: absolute; top: 24px; right: 32px; line-height: 1; transition: color 0.3s; }
+.service-card:hover .service-num { color: rgba(196,151,58,0.15); }
+.service-icon { width: 44px; height: 44px; margin-bottom: 24px; border: 0.5px solid rgba(196,151,58,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.service-icon svg { width: 20px; height: 20px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
+.service-title { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 400; color: var(--white); margin-bottom: 16px; line-height: 1.2; }
+.service-body { font-size: 14px; color: var(--mist); line-height: 1.8; font-weight: 300; margin-bottom: 24px; }
+.service-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.service-tag { font-size: 10px; color: var(--gold); background: var(--gold-dim); padding: 4px 10px; border-radius: 2px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; }
 
-    .hero-sub {
-      max-width: 34ch;
-      color: var(--muted);
-      margin-top: 2.5rem;
-      font-size: 12px;
-      line-height: 1.9;
-    }
+/* ---- ABOUT ---- */
+.about { padding: 120px 60px; background: var(--ink-mid); }
+.about-inner { display: flex; flex-direction: column; gap: 56px; }
+.about-left { max-width: 720px; }
+.about-left { position: static; }
+.about-body { font-size: 15px; color: var(--mist); line-height: 1.9; font-weight: 300; margin-bottom: 24px; }
+.team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.team-card { background: var(--ink-soft); border: 0.5px solid rgba(196,151,58,0.12); border-radius: var(--radius-lg); padding: 28px; display: flex; gap: 20px; align-items: flex-start; transition: border-color 0.3s; }
+.team-card:hover { border-color: rgba(196,151,58,0.35); }
+.team-avatar { width: 52px; height: 52px; border-radius: 50%; flex-shrink: 0; border: 1.5px solid rgba(196,151,58,0.3); display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--gold); background: var(--gold-dim); }
+.team-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; color: var(--white); margin-bottom: 4px; }
+.team-role { font-size: 11px; color: var(--gold); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 10px; }
+.team-bio { font-size: 13px; color: var(--mist); line-height: 1.7; font-weight: 300; }
+.team-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.team-badge { font-size: 10px; color: var(--pale); background: rgba(255,255,255,0.05); padding: 3px 9px; border-radius: 2px; letter-spacing: 0.06em; }
 
-    .hero-cta {
-      margin-top: 4rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 1rem;
-      text-decoration: none;
-      color: var(--ink);
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      border-bottom: 1px solid var(--ink);
-      padding-bottom: 0.25rem;
-      transition: gap 0.3s, color 0.2s;
-    }
-    .hero-cta:hover { gap: 1.5rem; color: var(--gold); border-color: var(--gold); }
+/* ---- EXPERTISE ---- */
+.expertise { padding: 120px 60px; }
+.expertise-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 64px; }
+.exp-card { border: 0.5px solid rgba(196,151,58,0.12); border-radius: var(--radius-lg); padding: 36px 28px; transition: border-color 0.3s, background 0.3s; background: rgba(255,255,255,0.01); }
+.exp-card:hover { border-color: rgba(196,151,58,0.3); background: rgba(196,151,58,0.03); }
+.exp-icon { font-size: 28px; margin-bottom: 20px; }
+.exp-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: var(--white); margin-bottom: 12px; font-weight: 400; }
+.exp-body { font-size: 13px; color: var(--mist); line-height: 1.8; font-weight: 300; }
 
-    .hero-right {
-      padding: 6rem 3rem 4rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-    }
+/* ---- MARKETS ---- */
+.markets { padding: 80px 60px; background: var(--ink-mid); }
+.markets-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 56px; }
+.market-card { background: var(--ink-soft); border: 0.5px solid rgba(196,151,58,0.12); border-radius: var(--radius-lg); padding: 32px 24px; text-align: center; transition: border-color 0.3s, background 0.3s; display: flex; flex-direction: column; align-items: center; gap: 12px; cursor: none; }
+.market-card:hover { border-color: rgba(196,151,58,0.3); background: rgba(196,151,58,0.04); }
+.market-card.active-region { border-color: var(--gold); background: rgba(196,151,58,0.07); }
+.market-flag { font-size: 36px; }
+.market-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--white); font-weight: 400; }
+.market-label { font-size: 10px; color: var(--mist); text-transform: uppercase; letter-spacing: 0.1em; }
+.market-desc { font-size: 12px; color: var(--slate); line-height: 1.6; font-weight: 300; margin-top: 4px; }
 
-    .services-label {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      color: var(--muted);
-      margin-bottom: 2rem;
-    }
+/* ---- CONTACT ---- */
+.contact { padding: 120px 60px; position: relative; overflow: hidden; }
+.contact-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 80% at 50% 100%, rgba(196,151,58,0.06) 0%, transparent 60%); }
+.contact-inner { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; text-align: center; }
+.contact-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 5vw, 64px); font-weight: 300; color: var(--white); line-height: 1.1; margin-bottom: 20px; }
+.contact-title em { font-style: italic; color: var(--gold); }
+.contact-body { font-size: 15px; color: var(--mist); margin-bottom: 48px; font-weight: 300; line-height: 1.8; }
+.contact-form { text-align: left; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.form-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+.form-label { font-size: 10px; color: var(--gold); text-transform: uppercase; letter-spacing: 0.15em; font-weight: 600; }
+.form-input, .form-select, .form-textarea { background: rgba(255,255,255,0.04); border: 0.5px solid rgba(196,151,58,0.2); border-radius: var(--radius); padding: 13px 16px; color: var(--white); font-family: 'Archivo', sans-serif; font-size: 14px; transition: border-color 0.2s, background 0.2s; outline: none; width: 100%; }
+.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--gold); background: rgba(196,151,58,0.05); }
+.form-input::placeholder, .form-textarea::placeholder { color: var(--slate); }
+.form-textarea { resize: vertical; min-height: 120px; }
+.form-select { appearance: none; cursor: pointer; color: var(--slate); }
+.form-select option { background: var(--ink-mid); color: var(--white); }
+.form-submit { width: 100%; background: var(--gold); color: var(--ink); font-family: 'Archivo', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; padding: 18px; border: none; border-radius: var(--radius); cursor: none; transition: background 0.2s, transform 0.2s; margin-top: 8px; }
+.form-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
+.contact-alt { margin-top: 36px; text-align: center; font-size: 13px; color: var(--mist); }
+.contact-alt a { color: var(--gold); text-decoration: none; }
+.contact-alt a:hover { text-decoration: underline; }
 
-    .service-list { list-style: none; }
-    .service-list li {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      padding: 1.1rem 0;
-      border-top: 1px solid var(--rule);
-      font-size: 12px;
-      color: var(--muted);
-      transition: color 0.2s;
-      cursor: default;
-    }
-    .service-list li:hover { color: var(--ink); }
-    .service-list li .num {
-      font-size: 10px;
-      color: var(--gold);
-      letter-spacing: 0.1em;
-    }
+/* ---- FOOTER ---- */
+footer { border-top: 0.5px solid rgba(196,151,58,0.12); padding: 48px 60px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; background: var(--ink); }
+.footer-left { display: flex; align-items: center; gap: 16px; }
+.footer-copy { font-size: 12px; color: var(--slate); }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a { font-size: 12px; color: var(--slate); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: var(--gold); }
+.footer-badge { font-size: 10px; color: var(--gold); background: var(--gold-dim); padding: 4px 12px; border-radius: 2px; letter-spacing: 0.1em; text-transform: uppercase; }
 
-    /* Pillars */
-    .pillars {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      border-top: 1px solid var(--rule);
-      animation: fadeUp 1s 0.2s ease both;
-    }
+/* ---- ANIMATIONS ---- */
+.fade-up { opacity: 0; transform: translateY(32px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+.fade-up.delay-1 { transition-delay: 0.1s; }
+.fade-up.delay-2 { transition-delay: 0.2s; }
+.fade-up.delay-3 { transition-delay: 0.3s; }
+.fade-up.delay-4 { transition-delay: 0.4s; }
 
-    .pillar {
-      padding: 3rem;
-      border-right: 1px solid var(--rule);
-    }
-    .pillar:last-child { border-right: none; }
+/* ---- TOAST ---- */
+.toast { position: fixed; bottom: 32px; right: 32px; z-index: 999; background: var(--ink-soft); border: 0.5px solid rgba(196,151,58,0.3); border-left: 3px solid var(--gold); border-radius: var(--radius-lg); padding: 16px 20px; font-size: 13px; color: var(--white); display: none; box-shadow: 0 8px 32px rgba(0,0,0,0.4); animation: toastIn 0.3s ease; }
+@keyframes toastIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
 
-    .pillar-num {
-      font-size: 10px;
-      color: var(--gold);
-      letter-spacing: 0.15em;
-      margin-bottom: 1.5rem;
-    }
-
-    .pillar h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 400;
-      font-size: 1.4rem;
-      margin-bottom: 1rem;
-    }
-
-    .pillar p { color: var(--muted); font-size: 12px; line-height: 1.9; }
-
-    /* Footer */
-    footer {
-      border-top: 1px solid var(--rule);
-      padding: 2rem 3rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: var(--muted);
-      font-size: 10px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(18px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 768px) {
-      header { padding: 1.5rem; flex-direction: column; gap: 1.5rem; }
-      .hero { grid-template-columns: 1fr; }
-      .hero-left { border-right: none; border-bottom: 1px solid var(--rule); padding: 3rem 1.5rem; }
-      .hero-right { padding: 3rem 1.5rem; }
-      .pillars { grid-template-columns: 1fr; }
-      .pillar { border-right: none; border-bottom: 1px solid var(--rule); }
-      footer { flex-direction: column; gap: 1rem; text-align: center; }
-    }
-  </style>
+/* ---- RESPONSIVE ---- */
+@media (max-width: 900px) {
+  nav { padding: 20px 24px; }
+  nav.scrolled { padding: 14px 24px; }
+  .nav-links { display: none; }
+  .hero { padding: 100px 24px 60px; }
+  .hero-stat-row { display: none; }
+  .hero-person { display: none; }
+  .services { padding: 80px 24px; }
+  .services-grid { grid-template-columns: 1fr; }
+  .about { padding: 80px 24px; }
+  .about-inner { flex-direction: column; gap: 40px; }
+  .team-grid { grid-template-columns: 1fr; }
+  .about-left { position: static; }
+  .expertise { padding: 80px 24px; }
+  .expertise-grid { grid-template-columns: 1fr; }
+  .markets { padding: 60px 24px; }
+  .markets-grid { grid-template-columns: 1fr 1fr; }
+  .contact { padding: 80px 24px; }
+  .form-row { grid-template-columns: 1fr; }
+  footer { padding: 32px 24px; flex-direction: column; gap: 16px; text-align: center; }
+  body { cursor: auto; }
+  .cursor, .cursor-ring { display: none; }
+}
+</style>
 </head>
-<body>
+<body class="region-uk" id="body">
 
-  <header>
-    <a class="wordmark" href="/">Proxima<span>.</span></a>
-    <nav>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">
+    <div class="logo-star">
+      <svg viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19 2 L21.2 16.8 L36 19 L21.2 21.2 L19 36 L16.8 21.2 L2 19 L16.8 16.8 Z" fill="none" stroke="#c4973a" stroke-width="1.2"/>
+        <path d="M19 7 L20.4 17.6 L31 19 L20.4 20.4 L19 31 L17.6 20.4 L7 19 L17.6 17.6 Z" fill="rgba(196,151,58,0.15)"/>
+        <circle cx="19" cy="19" r="2.5" fill="#c4973a"/>
+        <circle cx="19" cy="19" r="5" fill="none" stroke="rgba(196,151,58,0.3)" stroke-width="0.7"/>
+      </svg>
+    </div>
+    <div>
+      <span class="logo-text">Proxima</span>
+      <span class="logo-sub">Strategy</span>
+    </div>
+  </a>
+
+  <div class="nav-right">
+    <div class="nav-links">
       <a href="#services">Services</a>
-      <a href="#approach">Approach</a>
-      <a href="mailto:hello@proxima-strategy.com">Contact</a>
-    </nav>
-  </header>
+      <a href="#about">About</a>
+      <a href="#expertise">Expertise</a>
+      <a href="#markets">Markets</a>
+      <a href="#contact" class="nav-cta">Get in touch</a>
+    </div>
 
-  <section class="hero" id="services">
-    <div class="hero-left">
-      <div>
-        <p class="hero-eyebrow">Enterprise Strategy & Architecture</p>
-        <h1>Clarity at <em>scale.</em></h1>
-        <p class="hero-sub">
-          Proxima partners with enterprise and growth-stage organisations to navigate complexity — from connected mobility to GCC market entry and digital transformation.
-        </p>
-        <a class="hero-cta" href="mailto:hello@proxima-strategy.com">
-          Start a conversation &rarr;
-        </a>
+    <!-- REGION SELECTOR -->
+    <div class="region-selector" id="regionSelector" onclick="toggleRegionDropdown()">
+      <span class="region-flag" id="currentFlag">🇬🇧</span>
+      <span class="region-name" id="currentRegionName">United Kingdom</span>
+      <span class="region-chevron">▼</span>
+      <div class="region-dropdown" id="regionDropdown">
+        <div class="region-option active" data-region="uk" data-flag="🇬🇧" data-name="United Kingdom" onclick="selectRegion(event,'uk','🇬🇧','United Kingdom')">
+          <span class="rflag">🇬🇧</span>
+          <div><span class="rname">United Kingdom</span><span class="rsub">Headquarters</span></div>
+        </div>
+        <div class="region-option" data-region="europe" data-flag="🇪🇺" data-name="Europe" onclick="selectRegion(event,'europe','🇪🇺','Europe')">
+          <span class="rflag">🇪🇺</span>
+          <div><span class="rname">Europe</span><span class="rsub">EMEA programmes</span></div>
+        </div>
+        <div class="region-option" data-region="middle-east" data-flag="🌙" data-name="Middle East" onclick="selectRegion(event,'middle-east','🌙','Middle East')">
+          <span class="rflag">🌙</span>
+          <div><span class="rname">Middle East</span><span class="rsub">GCC · Vision 2030</span></div>
+        </div>
+        <div class="region-option" data-region="na" data-flag="🇺🇸" data-name="North America" onclick="selectRegion(event,'na','🇺🇸','North America')">
+          <span class="rflag">🇺🇸</span>
+          <div><span class="rname">North America</span><span class="rsub">NAR programmes</span></div>
+        </div>
+        <div class="region-option" data-region="row" data-flag="🌍" data-name="Rest of World" onclick="selectRegion(event,'row','🌍','Rest of World')">
+          <span class="rflag">🌍</span>
+          <div><span class="rname">Rest of World</span><span class="rsub">Global delivery</span></div>
+        </div>
       </div>
-      <div style="color:var(--muted); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; margin-top:4rem;">
-        London &middot; GCC &middot; EMEA
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-region-overlay active" id="overlay-uk"></div>
+  <div class="hero-region-overlay me" id="overlay-middle-east"></div>
+  <div class="hero-region-overlay eu" id="overlay-europe"></div>
+
+  <!-- Middle East professional person (SVG illustration) -->
+  <div class="hero-person" id="heroPerson">
+    <svg viewBox="0 0 420 680" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#0f2318" stop-opacity="0"/>
+          <stop offset="60%" stop-color="#0f2318" stop-opacity="0.1"/>
+          <stop offset="100%" stop-color="#0a1a12" stop-opacity="0.9"/>
+        </linearGradient>
+        <linearGradient id="kanduraGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#f0ede8"/>
+          <stop offset="100%" stop-color="#e8e4de"/>
+        </linearGradient>
+        <linearGradient id="gutrahGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="100%" stop-color="#f5f2ed"/>
+        </linearGradient>
+        <linearGradient id="skinGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#c4956a"/>
+          <stop offset="100%" stop-color="#a8784e"/>
+        </linearGradient>
+        <linearGradient id="agalGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#2a2a2a"/>
+          <stop offset="100%" stop-color="#1a1a1a"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Body / Kandura (white thobe) -->
+      <path d="M145 310 Q130 360 120 450 Q110 540 115 680 L305 680 Q310 540 300 450 Q290 360 275 310 Q260 295 210 295 Q160 295 145 310Z" fill="url(#kanduraGrad)"/>
+
+      <!-- Kandura collar detail -->
+      <path d="M190 295 L195 340 L210 350 L225 340 L230 295" fill="none" stroke="rgba(180,160,120,0.4)" stroke-width="1.5"/>
+
+      <!-- Gold trim on kandura -->
+      <path d="M185 300 Q210 315 235 300" fill="none" stroke="rgba(196,151,58,0.6)" stroke-width="1"/>
+
+      <!-- Arms -->
+      <path d="M145 310 Q110 350 95 400 Q88 425 100 435 Q115 445 125 420 Q135 390 150 360" fill="url(#kanduraGrad)" stroke="rgba(200,190,175,0.3)" stroke-width="1"/>
+      <path d="M275 310 Q310 350 325 400 Q332 425 320 435 Q305 445 295 420 Q285 390 270 360" fill="url(#kanduraGrad)" stroke="rgba(200,190,175,0.3)" stroke-width="1"/>
+
+      <!-- Hands -->
+      <ellipse cx="100" cy="440" rx="14" ry="18" fill="url(#skinGrad)"/>
+      <ellipse cx="320" cy="440" rx="14" ry="18" fill="url(#skinGrad)"/>
+
+      <!-- Neck -->
+      <rect x="197" y="255" width="26" height="45" rx="10" fill="url(#skinGrad)"/>
+
+      <!-- Head / Face -->
+      <ellipse cx="210" cy="220" rx="58" ry="68" fill="url(#skinGrad)"/>
+
+      <!-- Facial features — subtle -->
+      <!-- Eyes -->
+      <ellipse cx="192" cy="210" rx="8" ry="5" fill="#3a2510"/>
+      <ellipse cx="228" cy="210" rx="8" ry="5" fill="#3a2510"/>
+      <ellipse cx="192" cy="209" rx="4" ry="3.5" fill="#1a0f06"/>
+      <ellipse cx="228" cy="209" rx="4" ry="3.5" fill="#1a0f06"/>
+      <!-- Eye highlights -->
+      <circle cx="194" cy="208" r="1.5" fill="rgba(255,255,255,0.6)"/>
+      <circle cx="230" cy="208" r="1.5" fill="rgba(255,255,255,0.6)"/>
+
+      <!-- Eyebrows -->
+      <path d="M182 199 Q192 194 202 197" stroke="#3a2510" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <path d="M218 197 Q228 194 238 199" stroke="#3a2510" stroke-width="2" stroke-linecap="round" fill="none"/>
+
+      <!-- Nose -->
+      <path d="M210 210 Q206 225 208 230 Q210 233 212 230 Q214 225 210 210" fill="rgba(140,90,45,0.35)"/>
+
+      <!-- Mouth — slight confident smile -->
+      <path d="M199 243 Q210 250 221 243" stroke="#8a5530" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+
+      <!-- Beard — short professional -->
+      <path d="M165 245 Q175 270 195 278 Q210 282 225 278 Q245 270 255 245 Q240 260 210 264 Q180 260 165 245Z" fill="rgba(40,25,12,0.55)"/>
+
+      <!-- Gutra (white headscarf) -->
+      <path d="M152 165 Q155 130 175 115 Q195 100 210 98 Q225 100 245 115 Q265 130 268 165 Q272 185 268 200 Q255 215 240 220 Q235 190 232 170 Q225 150 210 148 Q195 150 188 170 Q185 190 180 220 Q165 215 152 200 Q148 185 152 165Z" fill="url(#gutrahGrad)"/>
+
+      <!-- Gutra folds / drape left -->
+      <path d="M152 175 Q140 200 142 230 Q145 255 158 265 Q165 240 163 210 Q162 190 168 180Z" fill="url(#gutrahGrad)" opacity="0.9"/>
+
+      <!-- Gutra folds / drape right -->
+      <path d="M268 175 Q280 200 278 230 Q275 255 262 265 Q255 240 257 210 Q258 190 252 180Z" fill="url(#gutrahGrad)" opacity="0.85"/>
+
+      <!-- Agal (black cord on gutra) -->
+      <ellipse cx="210" cy="158" rx="56" ry="14" fill="none" stroke="url(#agalGrad)" stroke-width="8" stroke-dasharray="none"/>
+      <ellipse cx="210" cy="155" rx="50" ry="10" fill="none" stroke="#1a1a1a" stroke-width="5"/>
+
+      <!-- Gold agal accent threads -->
+      <ellipse cx="210" cy="157" rx="53" ry="12" fill="none" stroke="rgba(196,151,58,0.4)" stroke-width="1.5"/>
+
+      <!-- Subtle tablet/device in hand (professional context) -->
+      <rect x="280" y="400" width="52" height="68" rx="5" fill="rgba(20,30,50,0.85)" stroke="rgba(196,151,58,0.3)" stroke-width="1"/>
+      <rect x="284" y="405" width="44" height="50" rx="3" fill="rgba(40,60,100,0.6)"/>
+      <line x1="288" y1="415" x2="324" y2="415" stroke="rgba(196,151,58,0.4)" stroke-width="1.2"/>
+      <line x1="288" y1="422" x2="320" y2="422" stroke="rgba(100,130,180,0.3)" stroke-width="1"/>
+      <line x1="288" y1="429" x2="316" y2="429" stroke="rgba(100,130,180,0.3)" stroke-width="1"/>
+
+      <!-- Subtle shadow/fade at bottom -->
+      <rect x="0" y="0" width="420" height="680" fill="url(#bgGrad)"/>
+
+      <!-- Gold accent glow at bottom -->
+      <ellipse cx="210" cy="680" rx="160" ry="30" fill="rgba(196,151,58,0.06)"/>
+    </svg>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow fade-up" id="heroEyebrow">Enterprise architecture consultancy</div>
+    <h1 class="hero-headline fade-up delay-1" id="heroHeadline">
+      Where <em>complexity</em><br>
+      meets clarity
+    </h1>
+    <p class="hero-body fade-up delay-2" id="heroBody">
+      Proxima partners with automotive OEMs and enterprise organisations to architect connected systems, navigate digital transformation, and unlock new markets — with precision.
+    </p>
+    <div class="hero-actions fade-up delay-3">
+      <a href="#contact" class="btn-primary">
+        Start a conversation
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </a>
+      <a href="#services" class="btn-secondary">
+        Our services <span class="btn-arrow">→</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-stat-row fade-up delay-4">
+    <div class="hero-stat">
+      <span class="hero-stat-num">15+</span>
+      <span class="hero-stat-label">Years experience</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">5</span>
+      <span class="hero-stat-label">Global markets</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">4</span>
+      <span class="hero-stat-label">Practice areas</span>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    Scroll to explore
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item"><span class="marquee-dot"></span>Connected Car Architecture</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Automotive Technology</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>GCC Market Entry</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Vision 2030 Advisory</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>EU AI Act Compliance</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Digital Mobility</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Enterprise Architecture</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Programme Assurance</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Connected Car Architecture</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Automotive Technology</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>GCC Market Entry</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Vision 2030 Advisory</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>EU AI Act Compliance</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Digital Mobility</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Enterprise Architecture</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Programme Assurance</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="section-header fade-up">
+    <div class="section-label">What we do</div>
+    <h2 class="section-title">Four practice areas.<br><em>One integrated perspective.</em></h2>
+  </div>
+  <div class="services-grid">
+    <div class="service-card fade-up">
+      <div class="service-num">01</div>
+      <div class="service-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg></div>
+      <h3 class="service-title">Connected Car Architecture</h3>
+      <p class="service-body">End-to-end architecture for connected vehicle platforms across the automotive industry. From predictive maintenance to over-the-air updates, we design systems that scale across markets and regulatory boundaries.</p>
+      <div class="service-tags">
+        <span class="service-tag">Automotive OEM</span>
+        <span class="service-tag">Predictive Maintenance</span>
+        <span class="service-tag">OTA</span>
+        <span class="service-tag">Digital Manual</span>
       </div>
     </div>
-
-    <div class="hero-right">
-      <p class="services-label">What we do</p>
-      <ul class="service-list">
-        <li>GCC Market Entry Advisory <span class="num">01</span></li>
-        <li>Connected Mobility Architecture <span class="num">02</span></li>
-        <li>Programme Assurance <span class="num">03</span></li>
-        <li>Fractional Leadership <span class="num">04</span></li>
-        <li>Digital Transformation <span class="num">05</span></li>
-        <li>Regulatory & Compliance Strategy <span class="num">06</span></li>
-      </ul>
+    <div class="service-card fade-up delay-1">
+      <div class="service-num">02</div>
+      <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <h3 class="service-title">GCC Market Advisory</h3>
+      <p class="service-body">Strategic advisory for organisations entering or expanding in Gulf Cooperation Council markets. Navigating Vision 2030, data localisation, regulatory compliance, and sovereign technology requirements with on-the-ground expertise.</p>
+      <div class="service-tags">
+        <span class="service-tag">Middle East</span>
+        <span class="service-tag">Vision 2030</span>
+        <span class="service-tag">PDPL</span>
+        <span class="service-tag">Market Entry</span>
+      </div>
     </div>
-  </section>
-
-  <section class="pillars" id="approach">
-    <div class="pillar">
-      <p class="pillar-num">I</p>
-      <h3>Sector depth</h3>
-      <p>Automotive, fintech, and smart infrastructure — real delivery experience across regulated, high-stakes environments.</p>
+    <div class="service-card fade-up delay-2">
+      <div class="service-num">03</div>
+      <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+      <h3 class="service-title">Fractional Architecture Leadership</h3>
+      <p class="service-body">Senior architecture leadership on a retained basis — embedding within your programme without the overhead of a permanent hire. ARB governance, stakeholder alignment, and technical decision-making at executive level.</p>
+      <div class="service-tags">
+        <span class="service-tag">Solutions Architecture</span>
+        <span class="service-tag">ARB</span>
+        <span class="service-tag">Governance</span>
+        <span class="service-tag">Retained</span>
+      </div>
     </div>
-    <div class="pillar">
-      <p class="pillar-num">II</p>
-      <h3>Market reach</h3>
-      <p>Native fluency in EMEA and GCC dynamics. Trusted relationships across the UK, UAE, Saudi Arabia, and broader VW Group ecosystem.</p>
+    <div class="service-card fade-up delay-3">
+      <div class="service-num">04</div>
+      <div class="service-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+      <h3 class="service-title">Programme Assurance</h3>
+      <p class="service-body">Independent assurance across complex cross-regional technology programmes. Compliance frameworks, data protection architecture, and delivery governance spanning EMEA, NAR, China, and Middle East deployments.</p>
+      <div class="service-tags">
+        <span class="service-tag">GDPR</span>
+        <span class="service-tag">EU AI Act</span>
+        <span class="service-tag">PIPL</span>
+        <span class="service-tag">Cross-regional</span>
+      </div>
     </div>
-    <div class="pillar">
-      <p class="pillar-num">III</p>
-      <h3>Strategic clarity</h3>
-      <p>We translate complexity into decisions. Architecture, compliance, and commercial strategy unified under one advisory relationship.</p>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-inner">
+    <div class="about-left">
+      <div class="section-label fade-up">Who we are</div>
+      <h2 class="section-title fade-up delay-1">A boutique firm<br>built on <em>deep craft</em></h2>
+      <p class="about-body fade-up delay-2">Proxima was founded by two practitioners who spent over a decade inside the world's most complex automotive and financial technology programmes. We don't consult from a distance — we embed, deliver, and leave organisations materially better than we found them.</p>
+      <p class="about-body fade-up delay-3">Our work spans connected car ecosystems across global automotive OEMs, GCC sovereign digital initiatives, AML and regulatory reporting at tier-one investment banks, and smart infrastructure programmes across Europe and the Middle East.</p>
     </div>
-  </section>
+    <div class="team-grid">
+      <div class="team-card fade-up">
+        <div class="team-avatar">UM</div>
+        <div>
+          <div class="team-name">Umar Mohamed</div>
+          <div class="team-role">Chief Technology Officer</div>
+          <div class="team-bio">Enterprise architect with deep expertise in connected vehicle platforms, cross-regional digital programme delivery, and financial services technology. Brings VP-level architecture experience across investment banking, regulatory compliance, and automotive technology sectors.</div>
+          <div class="team-badges">
+            <span class="team-badge">Automotive Technology</span>
+            <span class="team-badge">Connected Car</span>
+            <span class="team-badge">Investment Banking</span>
+            <span class="team-badge">GCC Advisory</span>
+          </div>
+        </div>
+      </div>
+      <div class="team-card fade-up delay-1">
+        <div class="team-avatar">SH</div>
+        <div>
+          <div class="team-name">Shahin Hassan</div>
+          <div class="team-role">Chief Vision Officer</div>
+          <div class="team-bio">Strategic advisor with extensive experience in enterprise transformation and GCC market entry. Combines commercial acumen with deep technical fluency to deliver outcomes that matter to boards and programme sponsors alike.</div>
+          <div class="team-badges">
+            <span class="team-badge">Enterprise Strategy</span>
+            <span class="team-badge">GCC Markets</span>
+            <span class="team-badge">Digital Transformation</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <footer>
-    <span>&copy; 2026 Proxima Strategy Ltd</span>
-    <span>hello@proxima-strategy.com</span>
-  </footer>
+<!-- EXPERTISE -->
+<section class="expertise" id="expertise">
+  <div class="section-header fade-up">
+    <div class="section-label">Domain expertise</div>
+    <h2 class="section-title">Depth where it <em>counts</em></h2>
+  </div>
+  <div class="expertise-grid">
+    <div class="exp-card fade-up">
+      <div class="exp-icon">⚡</div>
+      <div class="exp-title">Connected & Electric Vehicles</div>
+      <p class="exp-body">OTA architecture, predictive maintenance, digital twin, in-vehicle services, consent and activation frameworks, data residency across EMEA, NAR, China and Middle East.</p>
+    </div>
+    <div class="exp-card fade-up delay-1">
+      <div class="exp-icon">🔐</div>
+      <div class="exp-title">Identity & Compliance</div>
+      <p class="exp-body">GDPR, PIPL, PDPL, EU AI Act. Identity verification design, customer and dealer onboarding journeys, KYC/AML frameworks at global investment bank scale.</p>
+    </div>
+    <div class="exp-card fade-up delay-2">
+      <div class="exp-icon">🌐</div>
+      <div class="exp-title">API & Integration Architecture</div>
+      <p class="exp-body">OEM integration layer design, cross-tenant cloud architecture, REST and event-driven patterns, MuleSoft, Azure API Management, and AWS API Gateway.</p>
+    </div>
+    <div class="exp-card fade-up delay-3">
+      <div class="exp-icon">📊</div>
+      <div class="exp-title">Data Platform & AI Governance</div>
+      <p class="exp-body">Data residency architecture, GPAI compliance, AI Act risk classification, data protection impact assessments, and cross-regional data transfer frameworks.</p>
+    </div>
+    <div class="exp-card fade-up delay-1">
+      <div class="exp-icon">🏗️</div>
+      <div class="exp-title">Enterprise Architecture Governance</div>
+      <p class="exp-body">ARB process design, architecture decision records, technical position documents, stakeholder engagement, and cross-programme architecture alignment.</p>
+    </div>
+    <div class="exp-card fade-up delay-2">
+      <div class="exp-icon">🌍</div>
+      <div class="exp-title">GCC Digital Infrastructure</div>
+      <p class="exp-body">Vision 2030 technology alignment, Saudi PDPL compliance, UAE digital economy strategy, Islamic finance technology, and sovereign cloud requirements.</p>
+    </div>
+  </div>
+</section>
 
+<!-- MARKETS -->
+<section class="markets" id="markets">
+  <div class="section-header fade-up" style="text-align:center;">
+    <div class="section-label" style="justify-content:center;">Where we operate</div>
+    <h2 class="section-title">Global reach.<br><em>Local depth.</em></h2>
+  </div>
+  <div class="markets-grid fade-up delay-1">
+    <div class="market-card" id="mkt-uk" onclick="selectRegion(event,'uk','🇬🇧','United Kingdom')">
+      <div class="market-flag">🇬🇧</div>
+      <div class="market-name">United Kingdom</div>
+      <div class="market-label">Headquarters</div>
+      <div class="market-desc">Home base. Registered and operated from the UK.</div>
+    </div>
+    <div class="market-card" id="mkt-europe" onclick="selectRegion(event,'europe','🇪🇺','Europe')">
+      <div class="market-flag">🇪🇺</div>
+      <div class="market-name">Europe</div>
+      <div class="market-label">EMEA programmes</div>
+      <div class="market-desc">Automotive OEM programmes across the European market.</div>
+    </div>
+    <div class="market-card" id="mkt-middle-east" onclick="selectRegion(event,'middle-east','🌙','Middle East')">
+      <div class="market-flag">🌙</div>
+      <div class="market-name">Middle East</div>
+      <div class="market-label">GCC · Vision 2030</div>
+      <div class="market-desc">Saudi Arabia, UAE and wider GCC advisory and delivery.</div>
+    </div>
+    <div class="market-card" id="mkt-na" onclick="selectRegion(event,'na','🇺🇸','North America')">
+      <div class="market-flag">🇺🇸</div>
+      <div class="market-name">North America</div>
+      <div class="market-label">NAR programmes</div>
+      <div class="market-desc">Connected vehicle and digital mobility across NAR.</div>
+    </div>
+    <div class="market-card" id="mkt-row" onclick="selectRegion(event,'row','🌍','Rest of World')">
+      <div class="market-flag">🌍</div>
+      <div class="market-name">Rest of World</div>
+      <div class="market-label">Global delivery</div>
+      <div class="market-desc">Flexible engagement model for global programme delivery.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-bg"></div>
+  <div class="contact-inner">
+    <div class="section-label fade-up" style="justify-content:center;">Get in touch</div>
+    <h2 class="contact-title fade-up delay-1">Let's build<br><em>something remarkable</em></h2>
+    <p class="contact-body fade-up delay-2">Whether you're navigating a complex architecture decision, entering a new market, or need senior technical leadership — we'd like to hear from you.</p>
+    <form class="contact-form fade-up delay-3" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <div class="form-field">
+          <label class="form-label">Full name</label>
+          <input class="form-input" type="text" placeholder="Your name" required />
+        </div>
+        <div class="form-field">
+          <label class="form-label">Organisation</label>
+          <input class="form-input" type="text" placeholder="Company name" />
+        </div>
+      </div>
+      <div class="form-field">
+        <label class="form-label">Email address</label>
+        <input class="form-input" type="email" placeholder="you@organisation.com" required />
+      </div>
+      <div class="form-field">
+        <label class="form-label">Service area</label>
+        <select class="form-select form-input">
+          <option value="" disabled selected>Select a service area</option>
+          <option>Connected Car Architecture</option>
+          <option>GCC Market Advisory</option>
+          <option>Fractional Architecture Leadership</option>
+          <option>Programme Assurance</option>
+          <option>Other / Not sure yet</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label class="form-label">Message</label>
+        <textarea class="form-textarea" placeholder="Tell us about your programme, challenge, or opportunity…"></textarea>
+      </div>
+      <button type="submit" class="form-submit">Send message</button>
+    </form>
+    <div class="contact-alt">
+      Or email us directly at <a href="mailto:info@proximastrategy.co.uk">info@proximastrategy.co.uk</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">
+    <a href="#" class="nav-logo" style="text-decoration:none;">
+      <div class="logo-star" style="width:28px;height:28px;">
+        <svg viewBox="0 0 38 38" fill="none"><path d="M19 2 L21.2 16.8 L36 19 L21.2 21.2 L19 36 L16.8 21.2 L2 19 L16.8 16.8 Z" fill="none" stroke="#c4973a" stroke-width="1.2"/><circle cx="19" cy="19" r="2.5" fill="#c4973a"/></svg>
+      </div>
+      <span style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--white);letter-spacing:0.1em;">Proxima</span>
+    </a>
+    <span class="footer-copy">© 2026 Proxima Strategy Ltd. All rights reserved.</span>
+  </div>
+  <div class="footer-links">
+    <a href="#">Privacy policy</a>
+    <a href="#">Terms</a>
+    <a href="mailto:info@proximastrategy.co.uk">info@proximastrategy.co.uk</a>
+  </div>
+  <span class="footer-badge">UK Registered</span>
+</footer>
+
+<div class="toast" id="toast">
+  <strong style="display:block;margin-bottom:4px;">Message sent</strong>
+  <span style="font-size:12px;color:var(--mist);">We'll be in touch within one business day.</span>
+</div>
+
+<script>
+// ---- CURSOR ----
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{ mx=e.clientX; my=e.clientY; cursor.style.left=mx+'px'; cursor.style.top=my+'px'; });
+function animRing(){ rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(animRing); }
+animRing();
+document.querySelectorAll('a,button,.service-card,.team-card,.exp-card,.market-card,.region-option').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.classList.add('expand');ring.classList.add('expand');});
+  el.addEventListener('mouseleave',()=>{cursor.classList.remove('expand');ring.classList.remove('expand');});
+});
+
+// ---- NAV SCROLL ----
+window.addEventListener('scroll',()=>{ document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60); });
+
+// ---- FADE UP ----
+const io = new IntersectionObserver(entries=>{ entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); }); },{threshold:0.1});
+document.querySelectorAll('.fade-up').forEach(el=>io.observe(el));
+
+// ---- REGION SELECTOR ----
+const regionData = {
+  'uk': {
+    flag:'🇬🇧', name:'United Kingdom', bodyClass:'region-uk',
+    heroEyebrow:'Enterprise architecture consultancy',
+    heroHeadline:'Where <em>complexity</em><br>meets clarity',
+    heroBody:'Proxima partners with automotive OEMs and enterprise organisations to architect connected systems, navigate digital transformation, and unlock new markets — with precision.',
+    overlayId: null, showPerson: false
+  },
+  'europe': {
+    flag:'🇪🇺', name:'Europe', bodyClass:'region-europe',
+    heroEyebrow:'Serving European automotive programmes',
+    heroHeadline:'Precision at the <em>heart</em><br>of Europe',
+    heroBody:'Proxima delivers architecture leadership and programme assurance across European automotive and technology programmes, with deep experience in cross-border compliance and OEM ecosystems.',
+    overlayId:'overlay-europe', showPerson: false
+  },
+  'middle-east': {
+    flag:'🌙', name:'Middle East', bodyClass:'region-middle-east',
+    heroEyebrow:'GCC · Vision 2030 advisory',
+    heroHeadline:'Building the <em>digital future</em><br>of the Gulf',
+    heroBody:'Proxima brings enterprise architecture and strategic advisory expertise to Vision 2030 programmes across Saudi Arabia, UAE, and the wider GCC — combining global scale with regional insight.',
+    overlayId:'overlay-middle-east', showPerson: true
+  },
+  'na': {
+    flag:'🇺🇸', name:'North America', bodyClass:'region-na',
+    heroEyebrow:'North American programme delivery',
+    heroHeadline:'Connected vehicle <em>architecture</em><br>for NAR markets',
+    heroBody:'Proxima supports connected car and digital mobility programmes across North American markets, with expertise in multi-regional deployment, data sovereignty, and OEM integration.',
+    overlayId: null, showPerson: false
+  },
+  'row': {
+    flag:'🌍', name:'Rest of World', bodyClass:'region-row',
+    heroEyebrow:'Global programme delivery',
+    heroHeadline:'Architecture without <em>borders</em>',
+    heroBody:'Proxima delivers enterprise architecture and strategic advisory globally — wherever complex technology programmes require clarity, governance, and expert leadership.',
+    overlayId: null, showPerson: false
+  }
+};
+
+let currentRegion = 'uk';
+
+function toggleRegionDropdown() {
+  const sel = document.getElementById('regionSelector');
+  const dd = document.getElementById('regionDropdown');
+  sel.classList.toggle('open');
+  dd.classList.toggle('open');
+}
+
+document.addEventListener('click', e => {
+  const sel = document.getElementById('regionSelector');
+  if(!sel.contains(e.target)) {
+    sel.classList.remove('open');
+    document.getElementById('regionDropdown').classList.remove('open');
+  }
+});
+
+function selectRegion(e, region, flag, name) {
+  if(e) e.stopPropagation();
+  if(region === currentRegion) { closeDropdown(); return; }
+  currentRegion = region;
+  const data = regionData[region];
+  document.getElementById('body').className = data.bodyClass;
+  document.getElementById('currentFlag').textContent = flag;
+  document.getElementById('currentRegionName').textContent = name;
+  document.querySelectorAll('.region-option').forEach(o => {
+    o.classList.toggle('active', o.dataset.region === region);
+  });
+  document.getElementById('heroEyebrow').textContent = data.heroEyebrow;
+  document.getElementById('heroHeadline').innerHTML = data.heroHeadline;
+  document.getElementById('heroBody').textContent = data.heroBody;
+  document.querySelectorAll('.hero-region-overlay').forEach(o => o.classList.remove('active'));
+  if(data.overlayId) document.getElementById(data.overlayId)?.classList.add('active');
+  const person = document.getElementById('heroPerson');
+  if(data.showPerson) { person.classList.add('visible'); }
+  else { person.classList.remove('visible'); }
+  document.querySelectorAll('.market-card').forEach(c => c.classList.remove('active-region'));
+  const mkt = document.getElementById('mkt-'+region);
+  if(mkt) mkt.classList.add('active-region');
+  closeDropdown();
+}
+
+function closeDropdown() {
+  document.getElementById('regionSelector').classList.remove('open');
+  document.getElementById('regionDropdown').classList.remove('open');
+}
+
+// ---- CONTACT FORM ----
+function handleSubmit(e){
+  e.preventDefault();
+  const toast=document.getElementById('toast');
+  toast.style.display='block';
+  setTimeout(()=>{ toast.style.display='none'; },4000);
+  e.target.reset();
+}
+</script>
 </body>
 </html>
