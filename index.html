@@ -33,7 +33,7 @@ body {
   color: var(--frost);
   line-height: 1.7;
   overflow-x: hidden;
-  cursor: none;
+  cursor: auto;
   transition: background 0.6s ease;
 }
 
@@ -123,10 +123,11 @@ nav.scrolled {
   background: rgba(196,151,58,0.08);
   border: 0.5px solid rgba(196,151,58,0.25);
   border-radius: var(--radius);
-  padding: 7px 12px; cursor: none;
+  padding: 7px 12px; cursor: pointer;
   font-size: 12px; color: var(--pale);
   transition: background 0.2s;
   user-select: none;
+  touch-action: manipulation;
 }
 .region-selector:hover { background: rgba(196,151,58,0.14); }
 .region-flag { font-size: 14px; line-height: 1; }
@@ -146,7 +147,7 @@ nav.scrolled {
 .region-dropdown.open { display: block; }
 .region-option {
   display: flex; align-items: center; gap: 10px;
-  padding: 11px 16px; cursor: none;
+  padding: 11px 16px; cursor: pointer;
   font-size: 12px; color: var(--mist);
   transition: background 0.15s, color 0.15s;
   border-bottom: 0.5px solid rgba(196,151,58,0.08);
@@ -181,9 +182,9 @@ nav.scrolled {
 .hero-headline em { font-style: italic; color: var(--gold); font-weight: 300; }
 .hero-body { font-size: 16px; color: var(--mist); line-height: 1.8; max-width: 500px; margin-bottom: 48px; font-weight: 300; }
 .hero-actions { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
-.btn-primary { display: inline-flex; align-items: center; gap: 10px; background: var(--gold); color: var(--ink); font-family: 'Archivo', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; padding: 16px 32px; border-radius: var(--radius); transition: background 0.2s, transform 0.2s; border: none; cursor: none; }
+.btn-primary { display: inline-flex; align-items: center; gap: 10px; background: var(--gold); color: var(--ink); font-family: 'Archivo', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; padding: 16px 32px; border-radius: var(--radius); transition: background 0.2s, transform 0.2s; border: none; cursor: pointer; }
 .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
-.btn-secondary { display: inline-flex; align-items: center; gap: 10px; color: var(--pale); font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; transition: color 0.2s; cursor: none; }
+.btn-secondary { display: inline-flex; align-items: center; gap: 10px; color: var(--pale); font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; transition: color 0.2s; cursor: pointer; }
 .btn-secondary:hover { color: var(--gold); }
 .btn-arrow { font-size: 16px; transition: transform 0.2s; }
 .btn-secondary:hover .btn-arrow { transform: translateX(4px); }
@@ -252,7 +253,7 @@ nav.scrolled {
 /* ---- MARKETS ---- */
 .markets { padding: 80px 60px; background: var(--ink-mid); }
 .markets-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 56px; }
-.market-card { background: var(--ink-soft); border: 0.5px solid rgba(196,151,58,0.12); border-radius: var(--radius-lg); padding: 32px 24px; text-align: center; transition: border-color 0.3s, background 0.3s; display: flex; flex-direction: column; align-items: center; gap: 12px; cursor: none; }
+.market-card { background: var(--ink-soft); border: 0.5px solid rgba(196,151,58,0.12); border-radius: var(--radius-lg); padding: 32px 24px; text-align: center; transition: border-color 0.3s, background 0.3s; display: flex; flex-direction: column; align-items: center; gap: 12px; cursor: pointer; touch-action: manipulation; }
 .market-card:hover { border-color: rgba(196,151,58,0.3); background: rgba(196,151,58,0.04); }
 .market-card.active-region { border-color: var(--gold); background: rgba(196,151,58,0.07); }
 .market-flag { font-size: 36px; }
@@ -277,7 +278,7 @@ nav.scrolled {
 .form-textarea { resize: vertical; min-height: 120px; }
 .form-select { appearance: none; cursor: pointer; color: var(--slate); }
 .form-select option { background: var(--ink-mid); color: var(--white); }
-.form-submit { width: 100%; background: var(--gold); color: var(--ink); font-family: 'Archivo', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; padding: 18px; border: none; border-radius: var(--radius); cursor: none; transition: background 0.2s, transform 0.2s; margin-top: 8px; }
+.form-submit { width: 100%; background: var(--gold); color: var(--ink); font-family: 'Archivo', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; padding: 18px; border: none; border-radius: var(--radius); cursor: pointer; transition: background 0.2s, transform 0.2s; margin-top: 8px; }
 .form-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
 .contact-alt { margin-top: 36px; text-align: center; font-size: 13px; color: var(--mist); }
 .contact-alt a { color: var(--gold); text-decoration: none; }
@@ -328,6 +329,250 @@ footer { border-top: 0.5px solid rgba(196,151,58,0.12); padding: 48px 60px; disp
   body { cursor: auto; }
   .cursor, .cursor-ring { display: none; }
 }
+
+/* ============================================================
+   NOVA — PROXIMA CHATBOT
+   ============================================================ */
+
+/* Launcher button */
+.nova-launcher {
+  position: fixed; bottom: 28px; right: 28px; z-index: 9000;
+  width: 62px; height: 62px; border-radius: 50%;
+  background: linear-gradient(135deg, #1a1a2e 0%, #0d0f14 100%);
+  border: 1.5px solid var(--gold);
+  box-shadow: 0 4px 24px rgba(196,151,58,0.25), 0 0 0 0 rgba(196,151,58,0.4);
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  animation: novaPulse 3s ease-in-out infinite;
+  touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+  pointer-events: all;
+}
+.nova-launcher:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 32px rgba(196,151,58,0.4), 0 0 0 8px rgba(196,151,58,0.08);
+}
+@keyframes novaPulse {
+  0%,100% { box-shadow: 0 4px 24px rgba(196,151,58,0.25), 0 0 0 0 rgba(196,151,58,0.3); }
+  50%      { box-shadow: 0 4px 24px rgba(196,151,58,0.35), 0 0 0 10px rgba(196,151,58,0); }
+}
+.nova-launcher.open { animation: none; box-shadow: 0 6px 32px rgba(196,151,58,0.4); }
+
+/* Nova avatar SVG inside launcher */
+.nova-launcher-avatar { width: 42px; height: 42px; }
+
+/* Notification dot */
+.nova-notif {
+  position: absolute; top: 2px; right: 2px;
+  width: 14px; height: 14px; border-radius: 50%;
+  background: #e24b4a; border: 2px solid var(--ink);
+  font-size: 8px; color: #fff; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.3s;
+}
+
+/* Chat window */
+.nova-window {
+  position: fixed; bottom: 104px; right: 28px; z-index: 8999;
+  width: 380px; height: 560px;
+  background: #0d0f14;
+  border: 0.5px solid rgba(196,151,58,0.25);
+  border-radius: 20px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(196,151,58,0.05);
+  display: flex; flex-direction: column; overflow: hidden;
+  opacity: 0; transform: translateY(20px) scale(0.96);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+.nova-window.open {
+  opacity: 1; transform: translateY(0) scale(1);
+  pointer-events: all;
+}
+
+/* Header */
+.nova-header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #0f1520 100%);
+  border-bottom: 0.5px solid rgba(196,151,58,0.15);
+  padding: 16px 18px;
+  display: flex; align-items: center; gap: 12px;
+  flex-shrink: 0;
+}
+.nova-header-avatar {
+  width: 44px; height: 44px; flex-shrink: 0;
+  border-radius: 50%;
+  border: 1.5px solid rgba(196,151,58,0.5);
+  overflow: hidden;
+  position: relative;
+}
+.nova-header-avatar svg { width: 44px; height: 44px; }
+.nova-status-dot {
+  width: 9px; height: 9px; border-radius: 50%; background: #1d9e75;
+  position: absolute; bottom: 1px; right: 1px;
+  border: 1.5px solid #0f1520;
+  animation: statusPulse 2s ease-in-out infinite;
+}
+@keyframes statusPulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+.nova-header-info { flex: 1; }
+.nova-header-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px; font-weight: 500; color: var(--white);
+  letter-spacing: 0.04em; line-height: 1.2;
+}
+.nova-header-status {
+  font-size: 10px; color: #1d9e75; text-transform: uppercase;
+  letter-spacing: 0.12em; margin-top: 2px;
+}
+.nova-header-region {
+  font-size: 10px; color: var(--mist); background: rgba(196,151,58,0.08);
+  border: 0.5px solid rgba(196,151,58,0.2);
+  padding: 3px 8px; border-radius: 10px; letter-spacing: 0.06em;
+}
+.nova-close {
+  background: none; border: none; color: var(--slate);
+  cursor: pointer; font-size: 16px; line-height: 1;
+  padding: 8px; transition: color 0.2s;
+  touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+}
+.nova-close:hover { color: var(--gold); }
+
+/* Messages area */
+.nova-messages {
+  flex: 1; overflow-y: auto; padding: 16px;
+  display: flex; flex-direction: column; gap: 12px;
+  scroll-behavior: smooth;
+}
+.nova-messages::-webkit-scrollbar { width: 4px; }
+.nova-messages::-webkit-scrollbar-track { background: transparent; }
+.nova-messages::-webkit-scrollbar-thumb { background: rgba(196,151,58,0.2); border-radius: 2px; }
+
+/* Message bubbles */
+.nova-msg {
+  display: flex; gap: 8px; align-items: flex-end;
+  animation: msgIn 0.25s ease;
+}
+@keyframes msgIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+.nova-msg.user { flex-direction: row-reverse; }
+
+.nova-msg-avatar {
+  width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+  border: 1px solid rgba(196,151,58,0.3); overflow: hidden;
+}
+.nova-msg-avatar svg { width: 28px; height: 28px; }
+.nova-user-dot {
+  width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+  background: rgba(196,151,58,0.15); border: 1px solid rgba(196,151,58,0.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: var(--gold); font-weight: 600;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.nova-bubble {
+  max-width: 78%; padding: 10px 14px;
+  border-radius: 16px; font-size: 13px; line-height: 1.6;
+}
+.nova-msg.nova .nova-bubble {
+  background: rgba(255,255,255,0.05);
+  border: 0.5px solid rgba(196,151,58,0.12);
+  color: var(--pale); border-radius: 4px 16px 16px 16px;
+}
+.nova-msg.user .nova-bubble {
+  background: rgba(196,151,58,0.15);
+  border: 0.5px solid rgba(196,151,58,0.25);
+  color: var(--white); border-radius: 16px 16px 4px 16px;
+  text-align: right;
+}
+.nova-bubble strong { color: var(--gold); font-weight: 600; }
+
+/* Typing indicator */
+.nova-typing { display: flex; gap: 4px; align-items: center; padding: 12px 14px; }
+.nova-typing span {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold); opacity: 0.4;
+  animation: typingDot 1.2s ease-in-out infinite;
+}
+.nova-typing span:nth-child(2) { animation-delay: 0.2s; }
+.nova-typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingDot { 0%,60%,100%{opacity:0.4;transform:translateY(0)} 30%{opacity:1;transform:translateY(-4px)} }
+
+/* Quick replies */
+.nova-chips {
+  padding: 8px 16px 4px; display: flex; flex-wrap: wrap; gap: 7px;
+  flex-shrink: 0;
+}
+.nova-chip {
+  background: rgba(196,151,58,0.08);
+  border: 0.5px solid rgba(196,151,58,0.25);
+  border-radius: 16px; padding: 8px 16px;
+  font-size: 11px; color: var(--gold); cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  font-family: 'Archivo', sans-serif; font-weight: 500;
+  white-space: nowrap;
+  touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+}
+.nova-chip:hover { background: rgba(196,151,58,0.16); border-color: var(--gold); }
+
+/* Input row */
+.nova-input-row {
+  padding: 12px 16px 16px;
+  display: flex; gap: 10px; align-items: center;
+  border-top: 0.5px solid rgba(196,151,58,0.1);
+  flex-shrink: 0;
+}
+.nova-input {
+  flex: 1; background: rgba(255,255,255,0.04);
+  border: 0.5px solid rgba(196,151,58,0.2);
+  border-radius: 20px; padding: 10px 16px;
+  color: var(--white); font-family: 'Archivo', sans-serif;
+  font-size: 16px; outline: none; resize: none;
+  transition: border-color 0.2s;
+  max-height: 80px; overflow-y: auto;
+  cursor: text; -webkit-appearance: none;
+  touch-action: manipulation;
+}
+.nova-input::placeholder { color: var(--slate); }
+.nova-input:focus { border-color: rgba(196,151,58,0.5); }
+.nova-send {
+  width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+  background: var(--gold); border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s, transform 0.2s;
+  touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+  flex-shrink: 0;
+}
+.nova-send:hover { background: var(--gold-light); transform: scale(1.08); }
+.nova-send svg { width: 16px; height: 16px; stroke: var(--ink); fill: none; stroke-width: 2; }
+
+/* Contact collection form inside chat */
+.nova-contact-form { padding: 4px 0; }
+.nova-cfield { margin-bottom: 8px; }
+.nova-cfield input {
+  width: 100%; background: rgba(255,255,255,0.05);
+  border: 0.5px solid rgba(196,151,58,0.2); border-radius: 8px;
+  padding: 9px 12px; color: var(--white);
+  font-family: 'Archivo', sans-serif; font-size: 12px; outline: none;
+  transition: border-color 0.2s;
+}
+.nova-cfield input:focus { border-color: var(--gold); }
+.nova-cfield input::placeholder { color: var(--slate); }
+.nova-csubmit {
+  width: 100%; background: var(--gold); color: var(--ink);
+  border: none; border-radius: 8px; padding: 10px;
+  font-family: 'Archivo', sans-serif; font-size: 12px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 4px;
+  touch-action: manipulation;
+}
+.nova-csubmit:hover { background: var(--gold-light); }
+
+/* Mobile */
+@media (max-width: 480px) {
+  .nova-window { width: calc(100vw - 16px); right: 8px; left: 8px; bottom: 90px; height: calc(100vh - 120px); max-height: 600px; }
+  .nova-launcher { right: 16px; bottom: 16px; width: 56px; height: 56px; }
+  .nova-launcher-avatar { width: 38px; height: 38px; }
+  .nova-chip { font-size: 12px; padding: 9px 14px; }
+  .nova-bubble { font-size: 14px; }
+}
+
 </style>
 </head>
 <body class="region-uk" id="body">
@@ -786,7 +1031,7 @@ footer { border-top: 0.5px solid rgba(196,151,58,0.12); padding: 48px 60px; disp
       <button type="submit" class="form-submit">Send message</button>
     </form>
     <div class="contact-alt">
-      Or email us directly at <a href="mailto:info@proximastrategy.co.uk">info@proximastrategy.co.uk</a>
+      Or email us directly at <a href="/cdn-cgi/l/email-protection#1a73747c755a6a68756273777b696e687b6e7f7d63347975346f71"><span class="__cf_email__" data-cfemail="573e393138172725382f3e3a36242325362332302e79343879223c">[email&#160;protected]</span></a>
     </div>
   </div>
 </section>
@@ -805,7 +1050,7 @@ footer { border-top: 0.5px solid rgba(196,151,58,0.12); padding: 48px 60px; disp
   <div class="footer-links">
     <a href="#">Privacy policy</a>
     <a href="#">Terms</a>
-    <a href="mailto:info@proximastrategy.co.uk">info@proximastrategy.co.uk</a>
+    <a href="/cdn-cgi/l/email-protection#cea7a0a8a18ebebca1b6a7a3afbdbabcafbaaba9b7e0ada1e0bba5"><span class="__cf_email__" data-cfemail="bad3d4dcd5facac8d5c2d3d7dbc9cec8dbcedfddc394d9d594cfd1">[email&#160;protected]</span></a>
   </div>
   <span class="footer-badge">UK Registered</span>
 </footer>
@@ -815,7 +1060,328 @@ footer { border-top: 0.5px solid rgba(196,151,58,0.12); padding: 48px 60px; disp
   <span style="font-size:12px;color:var(--mist);">We'll be in touch within one business day.</span>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js">
+
+// ============================================================
+// NOVA — PROXIMA CHATBOT ENGINE (clean DOMContentLoaded wiring)
+// ============================================================
+
+const NOVA_REGION_CONFIG = {
+  uk: {
+    badge: '🇬🇧 UK',
+    greeting: "Hello! I'm Nova, Proxima's AI concierge.",
+    intro: "We're a UK-based enterprise architecture and digital strategy consultancy. How can I help you today?",
+    prompts: ['Our services', 'Connected Car', 'Fractional leadership', 'Book a call']
+  },
+  europe: {
+    badge: '🇪🇺 Europe',
+    greeting: "Bonjour! I'm Nova, Proxima's concierge.",
+    intro: "We work with leading European automotive OEMs and technology organisations. What brings you here today?",
+    prompts: ['Automotive OEM work', 'EU AI Act compliance', 'GDPR architecture', 'Talk to the team']
+  },
+  'middle-east': {
+    badge: '🌙 Middle East',
+    greeting: "Ahlan! I'm Nova, Proxima's concierge.",
+    intro: "Proxima specialises in Vision 2030 technology programmes and GCC market entry. How can I help you?",
+    prompts: ['Vision 2030', 'GCC market entry', 'PDPL compliance', 'Saudi/UAE advisory']
+  },
+  na: {
+    badge: '🇺🇸 North America',
+    greeting: "Hi there! I'm Nova, Proxima's concierge.",
+    intro: "We support connected vehicle and digital mobility programmes across North American markets.",
+    prompts: ['Connected vehicle NAR', 'Data sovereignty', 'OEM integration', 'Schedule a call']
+  },
+  row: {
+    badge: '🌍 Global',
+    greeting: "Hello! I'm Nova, Proxima's global concierge.",
+    intro: "Proxima delivers enterprise architecture and strategic advisory worldwide.",
+    prompts: ['Global delivery', 'Our expertise', 'Partner with Proxima', 'Get in touch']
+  }
+};
+
+const NOVA_KB = {
+  services: "Proxima has four core practice areas:
+
+01 Connected Car Architecture — End-to-end architecture for connected vehicle platforms. Predictive maintenance, OTA updates, digital twin, cross-market deployment.
+
+02 GCC Market Advisory — Strategic advisory for organisations entering Middle East markets. Vision 2030 alignment, PDPL compliance, sovereign technology.
+
+03 Fractional Architecture Leadership — Senior architecture on a retained basis. ARB governance, CTO-level decisions without a permanent hire.
+
+04 Programme Assurance — Independent assurance across cross-regional technology programmes. GDPR, EU AI Act, PIPL compliance.",
+  connected_car: "Our Connected Car practice covers the full architecture stack: predictive maintenance, OTA software delivery, digital twin, in-vehicle services, cross-market deployment across EMEA, NAR, China and Middle East with regional data residency requirements handled.",
+  gcc: "Our GCC advisory covers: Vision 2030 alignment, PDPL compliance, UAE digital economy, sovereign cloud requirements, Islamic finance technology, and market entry strategy for Saudi Arabia and UAE.",
+  leadership: "Our Fractional Architecture Leadership: embedded senior architect in your programme, ARB governance setup, decision register with audit trails, stakeholder alignment from technical to board level. Available on day rate, retainer, or project basis.",
+  assurance: "Programme Assurance covers: GDPR data protection architecture, EU AI Act compliance and risk classification, PIPL cross-border data transfer, PDPL GCC data sovereignty, and delivery governance across complex multi-regional programmes.",
+  team: "Proxima was founded by:
+
+Umar Mohamed — Chief Technology Officer
+Enterprise architect with expertise in connected vehicle platforms and financial services technology.
+
+Shahin Hassan — Chief Vision Officer
+Strategic advisor specialising in enterprise transformation and GCC market entry.",
+  contact: "You can reach Proxima at:
+
+info@proximastrategy.co.uk
+proximastrategy.co.uk
+
+Say 'contact me' and I'll collect your details right now.",
+  pricing: "Proxima offers: Day rate for short-term advisory, Retainer for ongoing architecture leadership, Fixed project for scoped deliverables. Would you like to discuss your specific needs?"
+};
+
+function novaResolveAnswer(msg) {
+  const m = msg.toLowerCase();
+  if (m.includes('service') || m.includes('what do you do') || m.includes('offer')) return NOVA_KB.services;
+  if (m.includes('connect') || m.includes('car') || m.includes('vehicle') || m.includes('ota') || m.includes('predict')) return NOVA_KB.connected_car;
+  if (m.includes('gcc') || m.includes('saudi') || m.includes('uae') || m.includes('vision 2030') || m.includes('middle east') || m.includes('gulf') || m.includes('pdpl')) return NOVA_KB.gcc;
+  if (m.includes('fraction') || m.includes('leader') || m.includes('cto') || m.includes('arb') || m.includes('retained') || m.includes('embed')) return NOVA_KB.leadership;
+  if (m.includes('assur') || m.includes('gdpr') || m.includes('complian') || m.includes('ai act') || m.includes('pipl')) return NOVA_KB.assurance;
+  if (m.includes('team') || m.includes('umar') || m.includes('shahin') || m.includes('founder') || m.includes('who are')) return NOVA_KB.team;
+  if (m.includes('price') || m.includes('cost') || m.includes('rate') || m.includes('fee') || m.includes('budget')) return NOVA_KB.pricing;
+  if (m.includes('contact') || m.includes('email') || m.includes('touch') || m.includes('reach') || m.includes('call') || m.includes('book') || m.includes('talk') || m.includes('speak') || m.includes('meet')) return 'contact_trigger';
+  return "Thanks for asking! Proxima specialises in enterprise architecture, connected car, and GCC advisory. Could you tell me a bit more about your challenge? I can give you a much more specific answer — or connect you directly with Umar or Shahin.";
+}
+
+// ── State ──────────────────────────────────────────────────────────────────
+var novaOpen = false;
+var novaRegion = 'uk';
+var novaStep = 'chat';
+var novaContact = {};
+var novaInitialised = false;
+var novaUserInitials = 'You';
+var novaCollectField = 0;
+var novaFields = ['name','email','organisation','message'];
+var novaFieldPrompts = [
+  "And your email address?",
+  "Which organisation are you with?",
+  "Finally, what's the nature of your enquiry?"
+];
+
+// ── Helpers ────────────────────────────────────────────────────────────────
+function novaAddMsg(from, text) {
+  var msgs = document.getElementById('novaMessages');
+  if(!msgs) return;
+  var div = document.createElement('div');
+  div.className = 'nova-msg ' + from;
+  var rendered = text.replace(/
+/g,'<br>');
+  var avatarSvg = '<svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="22" cy="22" r="22" fill="#0f1520"/><path d="M22 4 L23.6 19.4 L39 22 L23.6 24.6 L22 40 L20.4 24.6 L6 22 L20.4 19.4 Z" fill="none" stroke="#c4973a" stroke-width="0.8"/><circle cx="18" cy="20" r="2" fill="#c4973a"/><circle cx="26" cy="20" r="2" fill="#c4973a"/><path d="M18 25 Q22 28 26 25" stroke="#c4973a" stroke-width="1.2" fill="none" stroke-linecap="round"/></svg>';
+  if(from === 'nova') {
+    div.innerHTML = '<div class="nova-msg-avatar">' + avatarSvg + '</div><div class="nova-bubble">' + rendered + '</div>';
+  } else {
+    var initials = novaUserInitials.slice(0,2).toUpperCase();
+    div.innerHTML = '<div class="nova-bubble">' + rendered + '</div><div class="nova-user-dot">' + initials + '</div>';
+  }
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function novaTyping(cb) {
+  var msgs = document.getElementById('novaMessages');
+  if(!msgs) { cb(); return; }
+  var t = document.createElement('div');
+  t.className = 'nova-msg nova'; t.id = 'novaTypingIndicator';
+  t.innerHTML = '<div class="nova-msg-avatar"><svg viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="22" fill="#0f1520"/><circle cx="18" cy="20" r="2" fill="#c4973a"/><circle cx="26" cy="20" r="2" fill="#c4973a"/></svg></div><div class="nova-bubble"><div class="nova-typing"><span></span><span></span><span></span></div></div>';
+  msgs.appendChild(t);
+  msgs.scrollTop = msgs.scrollHeight;
+  setTimeout(function() {
+    var existing = document.getElementById('novaTypingIndicator');
+    if(existing) existing.remove();
+    cb();
+  }, 900 + Math.random()*500);
+}
+
+function novaSetChips(chips) {
+  var el = document.getElementById('novaChips');
+  if(!el) return;
+  el.innerHTML = '';
+  chips.forEach(function(c) {
+    var btn = document.createElement('button');
+    btn.className = 'nova-chip';
+    btn.textContent = c;
+    btn.type = 'button';
+    btn.addEventListener('click', function() {
+      el.innerHTML = '';
+      novaHandleMessage(c);
+    });
+    el.appendChild(btn);
+  });
+}
+
+function novaInit() {
+  var cfg = NOVA_REGION_CONFIG[novaRegion] || NOVA_REGION_CONFIG.uk;
+  setTimeout(function() { novaAddMsg('nova', cfg.greeting + ' ' + cfg.intro); }, 300);
+  setTimeout(function() { novaSetChips(cfg.prompts); }, 1000);
+}
+
+function novaUpdateRegion(region) {
+  novaRegion = region;
+  var cfg = NOVA_REGION_CONFIG[region] || NOVA_REGION_CONFIG.uk;
+  var badge = document.getElementById('novaRegionBadge');
+  if(badge) badge.textContent = cfg.badge;
+  if(novaOpen && novaInitialised) {
+    novaAddMsg('nova', "I've updated to " + cfg.badge + " context. " + cfg.intro);
+    setTimeout(function() { novaSetChips(cfg.prompts); }, 400);
+  }
+}
+
+function novaHandleMessage(txt) {
+  novaAddMsg('user', txt);
+  novaSetChips([]);
+  if(novaStep === 'collect') { novaHandleCollect(txt); return; }
+  var answer = novaResolveAnswer(txt);
+  novaTyping(function() {
+    if(answer === 'contact_trigger') {
+      novaStartCollect();
+    } else {
+      novaAddMsg('nova', answer);
+      setTimeout(function() { novaSetChips(['Tell me more','Pricing','Meet the team','Contact Proxima']); }, 400);
+    }
+  });
+}
+
+function novaStartCollect() {
+  novaStep = 'collect';
+  novaContact = {};
+  novaCollectField = 0;
+  novaAddMsg('nova', "I'll connect you with our team. What's your name?");
+}
+
+function novaHandleCollect(txt) {
+  novaContact[novaFields[novaCollectField]] = txt;
+  novaCollectField++;
+  if(novaCollectField === 1) {
+    novaUserInitials = txt.split(' ').map(function(w){ return w[0]||''; }).join('').slice(0,2) || 'U';
+    var first = txt.split(' ')[0];
+    novaTyping(function() { novaAddMsg('nova', "Great to meet you, " + first + "! " + novaFieldPrompts[0]); });
+  } else if(novaCollectField < novaFields.length) {
+    novaTyping(function() { novaAddMsg('nova', novaFieldPrompts[novaCollectField-1]); });
+  } else {
+    novaSubmitContact();
+  }
+}
+
+function novaSubmitContact() {
+  novaStep = 'done';
+  var first = (novaContact.name || 'there').split(' ')[0];
+  var regionLabel = (NOVA_REGION_CONFIG[novaRegion] || NOVA_REGION_CONFIG.uk).badge;
+  novaTyping(function() {
+    novaAddMsg('nova',
+      "Thank you " + first + "! I've passed your details to the Proxima team." +
+      "
+
+Someone will be in touch at " + (novaContact.email || 'your email') + " within one business day." +
+      "
+
+You can also email us directly at info@proximastrategy.co.uk"
+    );
+    setTimeout(function() { novaSetChips(['Our services','Connected Car','GCC Advisory']); }, 600);
+    // Fire mailto
+    var subject = encodeURIComponent('Proxima Enquiry — ' + (novaContact.name||'Website visitor') + ' (' + regionLabel + ')');
+    var body = encodeURIComponent(
+      'New enquiry via Nova chatbot
+Region: ' + regionLabel +
+      '
+
+Name: ' + (novaContact.name||'-') +
+      '
+Email: ' + (novaContact.email||'-') +
+      '
+Organisation: ' + (novaContact.organisation||'-') +
+      '
+Message: ' + (novaContact.message||'-') +
+      '
+
+Submitted: ' + new Date().toLocaleString()
+    );
+    setTimeout(function() {
+      window.location.href = 'mailto:info@proximastrategy.co.uk?subject=' + subject + '&body=' + body;
+    }, 1200);
+  });
+}
+
+// ── Wire everything up after DOM loads ─────────────────────────────────────
+// ── Wire Nova after full page load ─────────────────────────────────────────
+// Fallback init in case window.load already fired
+(function initNova() {
+  if(document.readyState === 'complete') {
+    setTimeout(wireNova, 100);
+  } else {
+    window.addEventListener('load', wireNova);
+  }
+})();
+
+function wireNova() {
+
+  var launcher = document.getElementById('novaLauncher');
+  var closeBtn  = document.getElementById('novaCloseBtn');
+  var sendBtn   = document.getElementById('novaSendBtn');
+  var inputEl   = document.getElementById('novaInput');
+  var winEl     = document.getElementById('novaWindow');
+  var notifEl   = document.getElementById('novaNotif');
+
+  function openNova() {
+    novaOpen = true;
+    if(winEl)     winEl.classList.add('open');
+    if(launcher)  launcher.classList.add('open');
+    if(notifEl)   notifEl.style.display = 'none';
+    if(!novaInitialised) { novaInitialised = true; novaInit(); }
+  }
+
+  function closeNova() {
+    novaOpen = false;
+    if(winEl)    winEl.classList.remove('open');
+    if(launcher) launcher.classList.remove('open');
+  }
+
+  if(launcher) {
+    launcher.addEventListener('click',  function(e){ e.stopPropagation(); openNova(); });
+    launcher.addEventListener('touchend', function(e){ e.preventDefault(); e.stopPropagation(); openNova(); });
+  }
+
+  if(closeBtn) {
+    closeBtn.addEventListener('click',   function(e){ e.stopPropagation(); closeNova(); });
+    closeBtn.addEventListener('touchend', function(e){ e.preventDefault(); e.stopPropagation(); closeNova(); });
+  }
+
+  if(sendBtn) {
+    sendBtn.addEventListener('click',   function(e){ e.stopPropagation(); novaSendMsg(); });
+    sendBtn.addEventListener('touchend', function(e){ e.preventDefault(); e.stopPropagation(); novaSendMsg(); });
+  }
+
+  if(inputEl) {
+    inputEl.addEventListener('keydown', function(e) {
+      if(e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); novaSendMsg(); }
+    });
+  }
+
+  function novaSendMsg() {
+    if(!inputEl) return;
+    var txt = inputEl.value.trim();
+    if(!txt) return;
+    inputEl.value = '';
+    novaHandleMessage(txt);
+  }
+
+  // Region options hook
+  document.querySelectorAll('.region-option').forEach(function(opt) {
+    opt.addEventListener('click', function() {
+      if(opt.dataset.region) novaUpdateRegion(opt.dataset.region);
+    });
+  });
+
+  // Market cards hook
+  document.querySelectorAll('.market-card').forEach(function(card) {
+    card.addEventListener('click', function() {
+      var region = (card.id||'').replace('mkt-','');
+      if(region) novaUpdateRegion(region);
+    });
+  });
+
+  console.log('[Nova] Wired successfully. Launcher:', !!launcher, 'Close:', !!closeBtn, 'Send:', !!sendBtn);
+}
+
+</script><script>
 // ---- CURSOR ----
 const cursor = document.getElementById('cursor');
 const ring = document.getElementById('cursorRing');
@@ -885,9 +1451,12 @@ function toggleRegionDropdown() {
 
 document.addEventListener('click', e => {
   const sel = document.getElementById('regionSelector');
-  if(!sel.contains(e.target)) {
+  const win = document.getElementById('novaWindow');
+  // Only close region dropdown — never interfere with Nova elements
+  if(sel && !sel.contains(e.target)) {
     sel.classList.remove('open');
-    document.getElementById('regionDropdown').classList.remove('open');
+    const dd = document.getElementById('regionDropdown');
+    if(dd) dd.classList.remove('open');
   }
 });
 
@@ -930,5 +1499,101 @@ function handleSubmit(e){
   e.target.reset();
 }
 </script>
+
+<!-- ============================================================
+     NOVA — PROXIMA AI CONCIERGE — DOM ELEMENTS
+     ============================================================ -->
+
+<!-- Floating launcher button -->
+<button class="nova-launcher" id="novaLauncher" aria-label="Chat with Nova" style="cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;">
+  <div class="nova-notif" id="novaNotif">1</div>
+  <svg class="nova-launcher-avatar" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="27" cy="27" r="26" fill="#0d0f14" stroke="#c4973a" stroke-width="1.2"/>
+    <path d="M27 5 L29 22.8 L47 27 L29 31.2 L27 49 L25 31.2 L7 27 L25 22.8 Z"
+          fill="none" stroke="rgba(196,151,58,0.35)" stroke-width="0.9"/>
+    <path d="M27 11 L28.4 22.2 L40 27 L28.4 31.8 L27 43 L25.6 31.8 L14 27 L25.6 22.2 Z"
+          fill="rgba(196,151,58,0.1)"/>
+    <ellipse cx="27" cy="26" rx="13" ry="14" fill="#1a2a4a"/>
+    <ellipse cx="27" cy="25" rx="10" ry="11" fill="rgba(196,151,58,0.07)"/>
+    <circle cx="22.5" cy="23" r="2.6" fill="rgba(196,151,58,0.85)"/>
+    <circle cx="31.5" cy="23" r="2.6" fill="rgba(196,151,58,0.85)"/>
+    <circle cx="22.5" cy="23" r="1.4" fill="#c4973a"/>
+    <circle cx="31.5" cy="23" r="1.4" fill="#c4973a"/>
+    <circle cx="23.2" cy="22.3" r="0.65" fill="rgba(255,255,255,0.85)"/>
+    <circle cx="32.2" cy="22.3" r="0.65" fill="rgba(255,255,255,0.85)"/>
+    <path d="M19.5 19.5 Q22.5 17.8 25.5 19.2" stroke="rgba(196,151,58,0.5)" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+    <path d="M28.5 19.2 Q31.5 17.8 34.5 19.5" stroke="rgba(196,151,58,0.5)" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+    <path d="M21.5 29.5 Q27 33.5 32.5 29.5" stroke="rgba(196,151,58,0.8)" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+    <circle cx="27" cy="27" r="1.2" fill="rgba(196,151,58,0.25)"/>
+  </svg>
+</button>
+
+<!-- Chat window -->
+<div class="nova-window" id="novaWindow">
+
+  <!-- Header -->
+  <div class="nova-header">
+    <div class="nova-header-avatar" style="position:relative;">
+      <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:44px;height:44px;">
+        <circle cx="22" cy="22" r="22" fill="#0d0f14"/>
+        <circle cx="22" cy="22" r="21" stroke="#c4973a" stroke-width="1"/>
+        
+        <path d="M22 4 L23.5 19.5 L39 22 L23.5 24.5 L22 40 L20.5 24.5 L6 22 L20.5 19.5 Z"
+              fill="none" stroke="rgba(196,151,58,0.3)" stroke-width="0.8"/>
+        <path d="M22 9 L23.1 19.9 L34 22 L23.1 24.1 L22 35 L20.9 24.1 L10 22 L20.9 19.9 Z"
+              fill="rgba(196,151,58,0.1)"/>
+        
+        <ellipse cx="22" cy="21.5" rx="11" ry="12" fill="#1a2a4a"/>
+        <ellipse cx="22" cy="21" rx="9" ry="10" fill="rgba(196,151,58,0.06)"/>
+        
+        <circle cx="18" cy="19.5" r="2.2" fill="rgba(196,151,58,0.9)"/>
+        <circle cx="26" cy="19.5" r="2.2" fill="rgba(196,151,58,0.9)"/>
+        <circle cx="18" cy="19.5" r="1.2" fill="#c4973a"/>
+        <circle cx="26" cy="19.5" r="1.2" fill="#c4973a"/>
+        <circle cx="18.6" cy="18.9" r="0.5" fill="rgba(255,255,255,0.85)"/>
+        <circle cx="26.6" cy="18.9" r="0.5" fill="rgba(255,255,255,0.85)"/>
+        
+        <path d="M15.2 16.5 Q18 15.2 20.8 16.3" stroke="rgba(196,151,58,0.5)" stroke-width="1" fill="none" stroke-linecap="round"/>
+        <path d="M23.2 16.3 Q26 15.2 28.8 16.5" stroke="rgba(196,151,58,0.5)" stroke-width="1" fill="none" stroke-linecap="round"/>
+        
+        <path d="M16.5 25 Q22 29 27.5 25" stroke="rgba(196,151,58,0.75)" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+        
+        <circle cx="22" cy="22" r="0.9" fill="rgba(196,151,58,0.2)"/>
+      </svg>
+      <div class="nova-status-dot"></div>
+    </div>
+    <div class="nova-header-info">
+      <div class="nova-header-name">Nova</div>
+      <div class="nova-header-status">&#9679; Online &mdash; Proxima Concierge</div>
+    </div>
+    <div class="nova-header-region" id="novaRegionBadge">&#127468;&#127463; UK</div>
+    <button class="nova-close" id="novaCloseBtn" style="cursor:pointer;touch-action:manipulation;min-width:44px;min-height:44px;-webkit-tap-highlight-color:transparent;">&#10005;</button>
+  </div>
+
+  <!-- Messages -->
+  <div class="nova-messages" id="novaMessages"></div>
+
+  <!-- Quick reply chips -->
+  <div class="nova-chips" id="novaChips"></div>
+
+  <!-- Input row -->
+  <div class="nova-input-row">
+    <textarea
+      class="nova-input"
+      id="novaInput"
+      placeholder="Ask Nova anything&hellip;"
+      rows="1"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();novaSend();}"
+    ></textarea>
+    <button class="nova-send" id="novaSendBtn" style="cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M14 8H2M9 3l5 5-5 5"/>
+      </svg>
+    </button>
+  </div>
+
+</div>
+<!-- /NOVA -->
+
 </body>
 </html>
